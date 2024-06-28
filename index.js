@@ -14,7 +14,10 @@ const client = new Client({ intents: [
 client.cooldowns = new Collection();
 client.commands = new Collection();
 
-commandhandler(client);
-eventhandler(client);
+const handlers = [commandhandler, eventhandler];
+
+for (const handler of handlers) {
+    handler(client);
+}
 
 client.login(token);
