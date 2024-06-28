@@ -16,5 +16,6 @@ client.commands = new Collection();
 
 commandhandler(client);
 eventhandler(client);
+asassa
 
 client.login(token);
