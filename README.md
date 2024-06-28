@@ -31,3 +31,11 @@ Don't forget to star and follow this repo for more.
 1. **Clone the Repository:**
    ```bash
    git clone https://github.com/iphysicc/TheG
+
+2. **Install modules:**
+   ```bash
+   npm install
+
+3. **Start:**
+   ```bash
+   node . or node index.js
