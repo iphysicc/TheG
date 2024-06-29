@@ -2,6 +2,7 @@ const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
     name: 'sunucu-bilgi',
+    cooldown: 10,
     description: 'Sunucunun bilgilerini gösterir.',
     execute(message) {
         const guild = message.guild;

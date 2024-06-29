@@ -11,6 +11,7 @@ const db = new JsonDatabase({
 
 module.exports = {
     name: 'seviye',
+    cooldown: 10,
     aliases: ["seviye", "level"],
     description: 'Kullanıcının seviyesini gösterir.',
     async execute(message, args) {

@@ -5,6 +5,7 @@ const db = new JsonDatabase({ databasePath: "./databases/profil.json" });
 
 module.exports = {
     name: 'profil',
+    cooldown: 10,
     description: 'Belirtilen kullanıcının profilini görüntüler.',
     async execute(message, args) {
         const targetUser = message.mentions.users.first() || message.author; 

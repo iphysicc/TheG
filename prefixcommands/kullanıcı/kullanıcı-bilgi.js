@@ -3,6 +3,7 @@ const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
     name: 'kullanıcı-bilgi',
+    cooldown: 10,
     description: 'Bir kullanıcının bilgilerini gösterir.',
     execute(message, args) {
         const targetUser = message.mentions.users.first() || message.author;

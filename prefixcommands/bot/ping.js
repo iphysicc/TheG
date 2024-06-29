@@ -2,6 +2,7 @@ const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
     name: 'ping',
+    cooldown: 10,
     description: 'Botun gecikmesini gösterir.',
     execute(message) {
         const embed = new EmbedBuilder()
