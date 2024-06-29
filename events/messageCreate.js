@@ -4,7 +4,6 @@ const reklamengel = require("../utils/reklamengel.js");
 const spamengel = require("../utils/spamengel.js");
 const küfürengel = require("../utils/kufurengel.js");
 const afkUtils = require("../utils/afkcheck");
-const botetiket = require("../utils/botetiket.js");
 const prefixcommandcheck = require("../utils/prefixcommandcheck.js");
 
 module.exports = {
@@ -18,9 +17,9 @@ module.exports = {
         küfürengel(message);
         afkUtils.handleAfkMentions(message);
         afkUtils.handleAfkReturn(message);
-        if (message.mentions.has(message.client.user)) botetiket(message);
-
-        
+        if (message.mentions.has(message.client.user)){
+            message.reply("Ta kendisiyim, komutlar için `/yardım`")
+        };
 
         checkLevelUp(message); 
     },

@@ -9,7 +9,7 @@ module.exports = {
     async execute(interaction) {
         const categories = {};
 
-        const commandsPath = path.join(__dirname, '..'); 
+        const commandsPath = path.join(__dirname, '..');
         const commandFolders = fs.readdirSync(commandsPath).filter(folder => !folder.startsWith('.'));
 
         for (const folder of commandFolders) {
@@ -18,39 +18,27 @@ module.exports = {
             for (const file of commandFiles) {
                 const command = require(path.join(commandsPath, folder, file));
 
-                if (command.data instanceof SlashCommandBuilder) { 
+                if (command.data instanceof SlashCommandBuilder) {
                     categories[folder] = categories[folder] || [];
-
-                    if (command.data.options.length > 0) {
-                        for (const subcommand of command.data.options.values()) {
-                            categories[folder].push({
-                                name: `${command.data.name} ${subcommand.name}`,
-                                description: subcommand.description
-                            });
-                        }
-                    } else {
-                        categories[folder].push({
-                            name: command.data.name,
-                            description: command.data.description
-                        });
-                    }
+                    categories[folder].push({
+                        name: command.data.name,
+                        description: command.data.description
+                    });
                 } 
             }
         }
 
-        // 2. Create Select Menu
         const selectMenu = new StringSelectMenuBuilder()
             .setCustomId('yardım-kategori')
             .setPlaceholder('Kategori Seçin');
 
         for (const category in categories) {
             selectMenu.addOptions({
-                label: category,
+                label: category.charAt(0).toUpperCase() + category.slice(1), // Kategori adının ilk harfini büyük yap
                 value: category
             });
         }
 
-        // 3. Create Buttons
         const row = new ActionRowBuilder()
             .addComponents(
                 new ButtonBuilder()
@@ -67,17 +55,14 @@ module.exports = {
                     .setStyle(ButtonStyle.Link)
             );
 
-        // 4. Initial Embed
-        const initialCategory = Object.keys(categories)[0]; 
+        const initialCategory = Object.keys(categories)[0];
         const initialEmbed = createCategoryEmbed(categories[initialCategory], initialCategory);
 
-        // 5. Send Initial Reply
         await interaction.reply({
             embeds: [initialEmbed],
             components: [new ActionRowBuilder().addComponents(selectMenu), row]
         });
 
-        // 6. Handle Select Menu Interactions
         const filter = i => i.customId === 'yardım-kategori' && i.user.id === interaction.user.id;
         const collector = interaction.channel.createMessageComponentCollector({ filter, time: 120000 });
 
@@ -92,10 +77,10 @@ module.exports = {
 function createCategoryEmbed(commands, categoryName) {
     const embed = new EmbedBuilder()
         .setColor('#0099ff')
-        .setTitle(`Komut Listesi - ${categoryName}`);
+        .setTitle(`Komut Listesi - ${categoryName.charAt(0).toUpperCase() + categoryName.slice(1)}`); // Baş harfi büyük
 
     embed.addFields({
-        name: categoryName,
+        name: categoryName.charAt(0).toUpperCase() + categoryName.slice(1), // Baş harfi büyük
         value: commands.map(cmd => `**/${cmd.name}** - ${cmd.description}`).join('\n'),
         inline: false
     });
