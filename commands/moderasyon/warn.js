@@ -3,6 +3,7 @@ const { JsonDatabase } = require("wio.db");
 const db = new JsonDatabase({ databasePath: "./databases/warnings.json" });
 
 module.exports = {
+    cooldown: 10,
     data: new SlashCommandBuilder()
         .setName('uyarı')
         .setDescription('Uyarı sistemi komutları.')

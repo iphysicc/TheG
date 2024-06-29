@@ -3,6 +3,7 @@ const { JsonDatabase } = require("wio.db");
 const db = new JsonDatabase({ databasePath: "./databases/anonimmesajengel.json" });
 
 module.exports = {
+    cooldown: 10,
     data: new SlashCommandBuilder()
         .setName('anonimmesaj')
         .setDescription('Anonim mesaj gönderme ve engelleme işlemleri')

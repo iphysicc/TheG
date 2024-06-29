@@ -2,6 +2,8 @@ const { PermissionsBitField, EmbedBuilder, ActionRowBuilder, ButtonBuilder, Butt
 
 module.exports = {
     name: 'kick',
+    cooldown: 10,
+    aliases: ['ban', "unban", "timeout", "untimeout", "mute", "unmute", "rol-ver", "rol-al"],
     description: 'Bir kullanıcıyı sunucudan atar.',
     async execute(message, args) {
         if (!message.member.permissions.has(PermissionsBitField.Flags.KickMembers)) {

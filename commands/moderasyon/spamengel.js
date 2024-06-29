@@ -3,6 +3,7 @@ const { JsonDatabase } = require("wio.db");
 const db = new JsonDatabase({ databasePath: "./databases/spam_engel.json" });
 
 module.exports = {
+    cooldown: 10,
     data: new SlashCommandBuilder()
         .setName('spamengel')
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)

@@ -7,6 +7,7 @@ const gif = "./assets/dcdd45bc02f89241babe4ab61ce69f01.gif";
 const attachment = new AttachmentBuilder(gif);
 
 module.exports = {
+  cooldown: 10,
   data: new SlashCommandBuilder()
     .setName("öp")
     .setDescription("Bir kullanıcıyı öpün.")

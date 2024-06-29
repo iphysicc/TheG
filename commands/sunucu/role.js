@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits, PermissionsBitField } = require('discord.js');
 
 module.exports = {
+    cooldown: 10,
     data: new SlashCommandBuilder()
         .setName('rol')
         .setDescription('Rol yönetimi komutları.')

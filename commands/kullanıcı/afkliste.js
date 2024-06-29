@@ -3,6 +3,7 @@ const { JsonDatabase } = require("wio.db");
 const db = new JsonDatabase({ databasePath: "./databases/afk.json" });
 
 module.exports = {
+  cooldown: 10,
   data: new SlashCommandBuilder()
     .setName("afkolanlar")
     .setDescription("AFK olan kullanıcıları listeler."),

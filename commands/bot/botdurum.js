@@ -2,6 +2,7 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const os = require('os');
 
 module.exports = {
+    cooldown: 10,
     data: new SlashCommandBuilder()
         .setName('botdurum')
         .setDescription('Botun durumunu gösterir.'),

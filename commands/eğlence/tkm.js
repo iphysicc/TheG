@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType, EmbedBuilder } = require('discord.js');
 
 module.exports = {
+  cooldown: 10,
   data: new SlashCommandBuilder()
     .setName('taşkağıtmakas')
     .setDescription('Taş Kağıt Makas oyna!')

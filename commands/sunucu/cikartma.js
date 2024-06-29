@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 
 module.exports = {
+    cooldown: 20,
     data: new SlashCommandBuilder()
         .setName('cikartma')
         .setDescription('Çıkartma yönetimi komutları.')

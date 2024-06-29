@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits, ChannelType } = require('discord.js');
 
 module.exports = {
+    cooldown: 10,
     data: new SlashCommandBuilder()
         .setName('nuke')
         .setDescription('Kanalı temizler ve kopyasını oluşturur.')

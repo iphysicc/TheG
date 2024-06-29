@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 module.exports = {
+    cooldown: 10,
     data: new SlashCommandBuilder()
         .setName('yardım')
         .setDescription('Botun tüm komutlarını listeler.'),

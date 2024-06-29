@@ -8,6 +8,7 @@ const {
 const googleIt = require("google-it");
 
 module.exports = {
+  cooldown: 60,
   data: new SlashCommandBuilder()
     .setName("google")
     .setDescription("Google'da arama yapar ve sonuçları gösterir.")

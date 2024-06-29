@@ -25,6 +25,7 @@ const {
   let activeCollector = null;
   
   module.exports = {
+    cooldown: 10,
     data: new SlashCommandBuilder()
       .setName("ayarlamalar")
       .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)

@@ -4,6 +4,7 @@ const { JsonDatabase } = require("wio.db");
 const sikayetDB = new JsonDatabase({ databasePath: "./databases/sikayetler.json" });
 
 module.exports = {
+  cooldown: 10,
   data: new SlashCommandBuilder()
     .setName('sikayetler')
     .setDescription('Şikayet sistemi komutları.')

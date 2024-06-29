@@ -8,6 +8,7 @@ const {
 } = require("discord.js");
 
 module.exports = {
+  cooldown: 40,
   data: new SlashCommandBuilder()
     .setName("balonpatlat")
     .setDescription("Sürekli balon patlatma oyunu"),

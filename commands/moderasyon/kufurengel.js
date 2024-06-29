@@ -3,6 +3,7 @@ const { JsonDatabase } = require("wio.db");
 const db = new JsonDatabase({ databasePath: "./databases/kufur_engel.json" });
 
 module.exports = {
+    cooldown: 10,
     data: new SlashCommandBuilder()
         .setName('küfürengel')
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)

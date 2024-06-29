@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
+    cooldown: 10,
     data: new SlashCommandBuilder()
         .setName('lock')
         .setDescription('Belirtilen kanalı kilitler.')

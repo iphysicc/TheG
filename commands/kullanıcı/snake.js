@@ -11,6 +11,7 @@ const {
 const activeGames = new Map();
 
 module.exports = {
+  cooldown: 20,
   data: new SlashCommandBuilder()
     .setName("yılan")
     .setDescription("Butonlarla oynanan yılan oyunu"),

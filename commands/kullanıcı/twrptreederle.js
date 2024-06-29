@@ -6,6 +6,7 @@ const fetch = require('node-fetch');
 const archiver = require('archiver');
 
 module.exports = {
+  cooldown: 120,
   data: new SlashCommandBuilder()
     .setName('twrpderle')
     .setDescription('Verilen recovery.img indirme linki için TWRP ağacı derler.')
