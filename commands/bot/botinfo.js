@@ -1,7 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 module.exports = {
-    cooldown: 5,
+    cooldown: 10,
 	data: new SlashCommandBuilder()
 		.setName('bot-bilgi')
 		.setDescription('Bot hakkında bilgi verir.'),
