@@ -3,7 +3,6 @@ const { JsonDatabase } = require("wio.db");
 const Canvas = require('canvas');
 const axios = require('axios');
 const path = require('path');
-const { aliases } = require('../moderasyon/moderasyon-bilgilendirme');
 
 const db = new JsonDatabase({
     databasePath: "./databases/levels.json" 
