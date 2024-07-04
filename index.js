@@ -1,10 +1,8 @@
 const { Client, Collection, GatewayIntentBits } = require("discord.js");
-const fs = require("fs");
 const { token } = require("./config.json");
 const commandhandler = require("./utils/commandhandler");
 const eventhandler = require("./utils/eventhandler");
 const prefixcommandhandler = require("./utils/prefixcommandshandler");
-
 
 const client = new Client({
   intents: [

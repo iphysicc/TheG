@@ -11,6 +11,7 @@ const {
   const spamEngelDB = new JsonDatabase({
     databasePath: "./databases/spam_engel.json",
   });
+  
   const küfürEngelDB = new JsonDatabase({
     databasePath: "./databases/kufur_engel.json",
   });
