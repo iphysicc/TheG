@@ -1,73 +1,95 @@
 const { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, AttachmentBuilder } = require('discord.js');
 const axios = require('axios');
 const fs = require('fs');
+const path = require('path');
 
 const MAX_RESPONSE_LENGTH = 2000;
+const API_ENDPOINT = `https://msii.xyz/api/yapay-zeka?soru=`;
+const MAX_BUTTONS_PER_ROW = 5;
 
 module.exports = {
-    data: new SlashCommandBuilder()
-        .setName('konuş')
-        .setDescription('Yapay zeka ile konuşun.')
-        .addStringOption(option =>
-            option.setName('prompt')
-                .setDescription('Yapay zekaya sormak istediğiniz soru veya mesaj.')
-                .setRequired(true)
-        ),
+  data: new SlashCommandBuilder()
+    .setName('konuş')
+    .setDescription('Yapay zeka ile konuşun.')
+    .addStringOption(option =>
+      option.setName('prompt')
+        .setDescription('Yapay zekaya sormak istediğiniz soru veya mesaj.')
+        .setRequired(true)
+    ),
     async execute(interaction) {
-        const prompt = interaction.options.getString('prompt');
-        await interaction.deferReply();
-
-        try {
-            const responses = await getMultipleResponses(prompt, 5);
-            let currentResponseIndex = 0;
-
-            const buttonRow = createButtonRow(responses, currentResponseIndex);
-            const initialMessage = await interaction.editReply({
-                content: responses[currentResponseIndex],
-                components: [buttonRow]
-            });
-
-            const filter = (i) => i.user.id === interaction.user.id;
-            const collector = initialMessage.createMessageComponentCollector({ filter });
-
-            collector.on('collect', async (i) => {
-                const responseIndex = parseInt(i.customId.split('_')[1]);
-                currentResponseIndex = responseIndex;
-
-                const selectedResponse = responses[responseIndex];
-                if (selectedResponse.length > MAX_RESPONSE_LENGTH) {
-                    const filePath = `response_${responseIndex}.txt`;
-                    fs.writeFileSync(filePath, selectedResponse);
-                    const attachment = new AttachmentBuilder(filePath);
-                    await i.update({ files: [attachment], components: [createButtonRow(responses, currentResponseIndex)] });
-                    fs.unlinkSync(filePath); // Dosyayı sil
-                } else {
-                    await i.update({ content: selectedResponse, components: [createButtonRow(responses, currentResponseIndex)] });
-                }
-            });
-        } catch (error) {
-            console.error('API isteği sırasında hata oluştu:', error);
-            await interaction.editReply('Bir hata oluştu. Lütfen daha sonra tekrar deneyin.');
+      const prompt = interaction.options.getString('prompt');
+      await interaction.deferReply();
+  
+      try {
+        const responses = await getMultipleResponses(prompt, 5);
+  
+        if (responses.some(response => !response || response.trim() === "")) {
+          await interaction.editReply("Yapay zeka geçerli bir yanıt üretemedi.");
+          return;
         }
+  
+        let currentResponseIndex = 0;
+        const buttonRows = createButtonRows(responses.length, currentResponseIndex);
+  
+        const initialMessage = await interaction.editReply({
+          content: responses[currentResponseIndex],
+          components: buttonRows,
+        });
+  
+        const filter = (i) => i.user.id === interaction.user.id;
+        const collector = initialMessage.createMessageComponentCollector({ filter, time: 120000 });
+  
+        collector.on('collect', async (i) => {
+          let responseIndex = parseInt(i.customId.split('_')[1]);
+          responseIndex = Math.min(Math.max(0, responseIndex), responses.length - 1); 
+  
+          const selectedResponse = responses[responseIndex];
+          if (!selectedResponse) {
+            console.error("Error: selectedResponse is undefined. responseIndex:", responseIndex);
+            await i.update({ content: "An error occurred. Please try again.", components: [] });
+            return; 
+          }
+  
+          currentResponseIndex = responseIndex;
+  
+          if (selectedResponse.length > MAX_RESPONSE_LENGTH) {
+            const filePath = path.join(__dirname, `response_${responseIndex}.txt`);
+            fs.writeFileSync(filePath, selectedResponse);
+            const attachment = new AttachmentBuilder(filePath);
+            await i.update({ files: [attachment], components: createButtonRows(responses.length, currentResponseIndex) });
+            fs.unlinkSync(filePath);
+          } else {
+            await i.update({ content: selectedResponse, components: createButtonRows(responses.length, currentResponseIndex) });
+          }
+        });
+      } catch (error) {
+        console.error('API isteği sırasında hata oluştu:', error);
+        await interaction.editReply('Bir hata oluştu. Lütfen daha sonra tekrar deneyin.');
+      }
     },
-};
+  };
 
-function createButtonRow(responses, currentResponseIndex) {
-    const buttonRow = new ActionRowBuilder();
-    for (let i = 0; i < responses.length; i++) {
-        buttonRow.addComponents(
-            new ButtonBuilder()
-                .setCustomId(`response_${i}`)
-                .setLabel(`${i + 1}`)
-                .setStyle(i === currentResponseIndex ? ButtonStyle.Success : ButtonStyle.Primary)
-        );
+function createButtonRows(totalResponses, currentResponseIndex) {
+  const rows = [];
+  for (let i = 0; i < totalResponses; i++) {
+    const rowIndex = Math.floor(i / MAX_BUTTONS_PER_ROW);
+    if (!rows[rowIndex]) {
+      rows[rowIndex] = new ActionRowBuilder();
     }
-    return buttonRow;
+
+    rows[rowIndex].addComponents(
+      new ButtonBuilder()
+        .setCustomId(`response_${i}`)
+        .setLabel(`${i + 1}`)
+        .setStyle(i === currentResponseIndex ? ButtonStyle.Success : ButtonStyle.Primary)
+    );
+  }
+  return rows;
 }
 
 async function getMultipleResponses(prompt, count) {
-    const responses = await Promise.all(
-        Array.from({ length: count }, () => axios.get(`https://msii.xyz/api/yapay-zeka?soru=${encodeURIComponent(prompt)}`))
-    );
-    return responses.map(response => response.data.reply);
+  const responses = await Promise.all(
+    Array.from({ length: count }, () => axios.get(`${API_ENDPOINT}${encodeURIComponent(prompt)}`))
+  );
+  return responses.map(response => response.data.reply);
 }
