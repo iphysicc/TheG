@@ -7,12 +7,15 @@ async function küfürengel(message) {
     const küfürEngel = db.get(`küfürEngel_${guildId}`);
 
     if (küfürEngel && !message.member.permissions.has('Administrator')) { 
-        const küfürler = ["am", "çük", "meme"]; //wordlisti siz ekleyeceksiniz.
+        const küfürler = require("../wordlists/kufurengel.json"); //wordlisti siz ekleyeceksiniz.
         const kufurVar = küfürler.some(küfür => message.content.toLowerCase().includes(küfür));
 
         if (kufurVar) {
             await message.delete();
-            await message.channel.send(`${message.author}, küfür etmek yasaktır!`);
+            const uyarımessage =  await message.channel.send(`${message.author}, küfür etmek yasaktır!`);
+            setTimeout(() => {
+                uyarımessage.delete();
+            }, 2000);
         }
     }
 }
