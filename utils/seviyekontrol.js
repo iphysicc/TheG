@@ -34,7 +34,8 @@ async function checkLevelUp(message) {
       backgroundURL
     );
     const attachment = new AttachmentBuilder(levelUpImage, "levelup.png");
-    message.channel.send({ files: [attachment] });
+    const channel = "1259118352396189737";
+    await message.client.channels.cache.get(channel).send({ files: [attachment] });
   }
 }
 
