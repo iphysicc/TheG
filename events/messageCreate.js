@@ -18,10 +18,6 @@ module.exports = {
       ai.handleMessage(message);
       afkUtils.handleAfkMentions(message);
       afkUtils.handleAfkReturn(message);
-      if (message.mentions.has(message.client.user)) {
-        message.reply("Ta kendisiyim, komutlar için `/yardım`");
-      }
-
       checkLevelUp(message);
     } catch (error) {
       console.log("Hata")
