@@ -14,7 +14,7 @@ async function getApiResponse(prompt) {
 async function handleMessage(message) {
   const userMessage = message.content;
 
-  if (userMessage.startsWith("-konuş")) {
+  if (userMessage.startsWith("+konuş")) {
     const ALLOWED_CHANNEL_ID = "1262122365693722666";
 
     if (message.channel.id !== ALLOWED_CHANNEL_ID) {
@@ -23,7 +23,7 @@ async function handleMessage(message) {
       });
     }
 
-    const args = userMessage.slice("-konuş".length).trim();
+    const args = userMessage.slice("+konuş".length).trim();
     if (args) {
       const prompt = `${args}`;
       const apiResponse = await getApiResponse(prompt);
