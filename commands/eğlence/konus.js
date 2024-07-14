@@ -44,6 +44,10 @@ module.exports = {
         return;
       }
 
+      if (responses.includes("@everyone") || responses.includes("@here")){
+        return message.reply("Lütfen birilerini etiketleyici girdiler vermeyin!");
+      }
+
       let currentResponseIndex = 0;
       const buttonRows = createButtonRows(
         responses.length,
