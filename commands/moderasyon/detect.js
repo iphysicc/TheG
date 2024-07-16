@@ -4,9 +4,7 @@ module.exports = {
   cooldown: 10,
   data: new SlashCommandBuilder()
     .setName("kelime-tespit")
-    .setDescription(
-      "Belirtilen kelimeyi sunucudaki mesajlarda arar ve bulursa siler."
-    )
+    .setDescription("Belirtilen kelimeyi sunucudaki mesajlarda arar ve bulursa siler.")
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
     .addStringOption((option) =>
       option
@@ -15,7 +13,7 @@ module.exports = {
         .setRequired(true)
     ),
   async execute(interaction) {
-    const kelime = interaction.options.getString("kelime");
+    const kelime = interaction.options.getString("kelime").toLowerCase(); // Kelimeyi küçük harfe çevir
     const channel = interaction.channel;
 
     const embed = new EmbedBuilder()
@@ -31,11 +29,11 @@ module.exports = {
     const mesajlar = await channel.messages.fetch({ limit: 100 });
 
     for (const mesaj of mesajlar.values()) {
-      if (mesaj.content.includes(kelime)) {
+      if (mesaj.content.toLowerCase().includes(kelime)) { // Mesaj içeriğini küçük harfe çevir
         await mesaj.delete();
         silinenMesajSayisi++;
         mesajYazarlari.add(mesaj.author.tag);
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await new Promise((resolve) => setTimeout(resolve, 500)); // Rate limit için bekleme
       }
     }
 

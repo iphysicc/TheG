@@ -1,11 +1,11 @@
 const { Events } = require("discord.js");
-const { checkLevelUp } = require("../utils/seviyekontrol.js"); // Fonksiyonu import et
+const { checkLevelUp } = require("../utils/seviyekontrol.js"); 
 const reklamengel = require("../utils/reklamengel.js");
 const küfürengel = require("../utils/kufurengel.js");
 const afkUtils = require("../utils/afkcheck");
 const prefixcommandcheck = require("../utils/prefixcommandcheck.js");
 const ai = require("../utils/ai.js");
-const oneri = require("../utils/oneri.js")
+const oneri = require("../utils/oneri.js");
 
 module.exports = {
   name: Events.MessageCreate,
@@ -20,9 +20,9 @@ module.exports = {
       ai.handleMessage(message);
       afkUtils.handleAfkMentions(message);
       afkUtils.handleAfkReturn(message);
-      checkLevelUp(message);
+      checkLevelUp(message); 
     } catch (error) {
-      console.log("Hata")
+      console.error("Hata", error);
     }
   },
 };
